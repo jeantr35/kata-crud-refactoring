@@ -25,4 +25,8 @@ public class TodoService {
          return repository.findById(id).orElseThrow();
     }
 
+    public boolean existInDb(Long id){
+        return repository.existsById(id);
+    }
+
 }

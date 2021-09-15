@@ -17,7 +17,10 @@ public class TodoController {
     
     @PostMapping(value = "api/todo")
     public Todo save(@RequestBody Todo todo){
-        return service.save(todo);
+        if (!todo.getName().isEmpty() && todo.getName().length() > 3){
+            return service.save(todo);
+        }
+        throw new RuntimeException("Por favor ingrese un nombre de al menos 4 caracteres");
     }
 
     @PutMapping(value = "api/todo")
@@ -25,12 +28,16 @@ public class TodoController {
         if(todo.getId() != null){
             return service.save(todo);
         }
-        throw new RuntimeException("No existe el id para actualziar");
+        throw new RuntimeException("No existe el id para actualizar");
     }
 
     @DeleteMapping(value = "api/{id}/todo")
     public void delete(@PathVariable("id")Long id){
-        service.delete(id);
+        if (service.existInDb(id)){
+            service.delete(id);
+        }
+        throw new RuntimeException("No existe el id para borrar");
+
     }
 
     @GetMapping(value = "api/{id}/todo")
