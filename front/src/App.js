@@ -1,4 +1,5 @@
 import React, { useContext, useReducer, useEffect, useRef, useState, createContext } from 'react';
+import List from './components/List.jsx'
 
 const HOST_API = "http://localhost:8080/api";
 const initialState = {
@@ -78,7 +79,7 @@ const Form = () => {
 }
 
 
-const List = () => {
+/* const List = () => {
   const { dispatch, state: { todo } } = useContext(Store);
   const currentList = todo.list;
 
@@ -147,7 +148,7 @@ const List = () => {
       </tbody>
     </table>
   </div>
-}
+} */
 
 
 
@@ -201,7 +202,7 @@ function App() {
   return <StoreProvider>
     <h3>To-Do List</h3>
     <Form />
-    <List />
+    <List Store={Store} HOST_API={HOST_API}/>
   </StoreProvider>
 }
 
