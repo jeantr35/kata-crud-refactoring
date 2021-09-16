@@ -24,38 +24,16 @@ const ListOfList = () => {
   };
 
 
-  const onChange = (event, todo) => {
-    const request = {
-      name: todo.name,
-      id: todo.id,
-    };
-    fetch(HOST_API + "/todoList", {
-      method: "PUT",
-      body: JSON.stringify(request),
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    })
-      .then(response => response.json())
-      .then((list) => {
-        dispatch({ type: "update-list", item: list });
-      });
-  };
-
-
   return <div>
     <table >
-      <thead>
-        <tr>
-          <td>Nombre</td>
-        </tr>
-      </thead>
       <tbody>
         {currentList.map((lists) => {
-          return <tr>
+          return <div>
+          <tr>
             <td>{lists.name}</td>
             <td><button onClick={() => onDelete(lists.id)}>Eliminar</button></td>
           </tr>
+          </div>
         })}
       </tbody>
     </table>

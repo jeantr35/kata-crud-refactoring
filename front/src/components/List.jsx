@@ -3,8 +3,10 @@ import { HOST_API } from './Reducer.jsx';
 import { Store } from './Store.jsx';
 
 const List = () => {
-const { dispatch, state: { todo } } = useContext(Store);
-const currentList = todo.list;
+const { dispatch, state: { todo, lists } } = useContext(Store);
+const currentTodos = todo.list;
+const currentList = lists.list;
+
 
   useEffect(() => {
     fetch(HOST_API + "/todos")
@@ -46,27 +48,60 @@ const currentList = todo.list;
       });
   };
 
+  
+  useEffect(() => {
+    fetch(HOST_API + "/todoLists")
+      .then(response => response.json())
+      .then((list) => {
+        dispatch({ type: "update-listOfList", list })
+      })
+  }, [dispatch]);
+
+
+  const onDeleteList = (id) => {
+    fetch(HOST_API + "/" + id + "/todoList", {
+      method: "DELETE"
+    }).then((list) => {
+      dispatch({ type: "delete-list", id })
+    })
+  };
+
   const decorationDone = {
     textDecoration: 'line-through'
   };
+  
   return <div>
     <table >
-      <thead>
-        <tr>
-          <td>ID</td>
-          <td>Tarea</td>
-          <td>¿Completado?</td>
-        </tr>
-      </thead>
       <tbody>
-        {currentList.map((todo) => {
-          return <tr key={todo.id} style={todo.completed ? decorationDone : {}}>
-            <td>{todo.id}</td>
-            <td>{todo.name}</td>
-            <td><input type="checkbox" defaultChecked={todo.completed} onChange={(event) => onChange(event, todo)}></input></td>
-            <td><button onClick={() => onDelete(todo.id)}>Eliminar</button></td>
-            <td><button onClick={() => onEdit(todo)}>Editar</button></td>
+        {currentList.map((lists) => {
+          return <div>
+          <tr>
+            <td>{lists.name}</td>
+            <td><button onClick={() => onDeleteList(lists.id)}>Eliminar</button></td>
           </tr>
+      <div>
+        <table >
+          <thead>
+            <tr>
+              <td>ID</td>
+              <td>Tarea</td>
+              <td>¿Completado?</td>
+            </tr>
+          </thead>
+          <tbody>
+            {currentTodos.map((todo) => {
+              return <tr key={todo.id} style={todo.completed ? decorationDone : {}}>
+                <td>{todo.id}</td>
+                <td>{todo.name}</td>
+                <td><input type="checkbox" defaultChecked={todo.completed} onChange={(event) => onChange(event, todo)}></input></td>
+                <td><button onClick={() => onDelete(todo.id)}>Eliminar</button></td>
+                <td><button onClick={() => onEdit(todo)}>Editar</button></td>
+              </tr>
+            })}
+          </tbody>
+        </table>
+      </div>
+      </div>
         })}
       </tbody>
     </table>

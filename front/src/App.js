@@ -10,7 +10,7 @@ function App() {
   return <StoreProvider>
     <h3>To-Do List</h3>
     <FormList />
-    <ListOfList />
+    {/* <ListOfList /> */}
     <Form />
     <List />
   </StoreProvider>
