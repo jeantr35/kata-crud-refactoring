@@ -1,7 +1,7 @@
 import React from 'react';
 import List from './components/List.jsx'
 import Form from './components/Form.jsx';
-import { StoreProvider } from './components/Reducer.jsx';
+import { StoreProvider } from './components/StoreProvider';
 
 
 function App() {

@@ -1,5 +1,6 @@
 import React, {useContext, useState, useRef} from 'react'
-import { HOST_API, Store } from './Reducer.jsx';
+import { HOST_API } from './Reducer.jsx';
+import { Store } from './Store.jsx';
 
 const Form = () => {
   const formRef = useRef(null);

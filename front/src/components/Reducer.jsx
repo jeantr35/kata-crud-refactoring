@@ -1,10 +1,6 @@
-import React, {createContext, useReducer} from 'react'
+import React from 'react'
 
 export const HOST_API = "http://localhost:8080/api";
-export const initialState = {
-  todo: { list: [], item: {} }
-};
-export const Store = createContext(initialState)
 
 export function reducer(state, action) {
   switch (action.type) {
@@ -41,13 +37,4 @@ export function reducer(state, action) {
     default:
       return state;
   }
-}
-
-export const StoreProvider = ({ children }) => {
-  const [state, dispatch] = useReducer(reducer, initialState);
-
-  return <Store.Provider value={{ state, dispatch }}>
-    {children}
-  </Store.Provider>
-
 }
