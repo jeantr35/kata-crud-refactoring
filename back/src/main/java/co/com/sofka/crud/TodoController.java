@@ -25,7 +25,7 @@ public class TodoController {
 
     @PutMapping(value = "api/todo")
     public Todo update(@RequestBody Todo todo){
-        if(todo.getId() != null){
+        if(todo.getId() != null && todo.getName().length() > 3){
             return service.save(todo);
         }
         throw new RuntimeException("No existe el id para actualizar");
@@ -42,7 +42,10 @@ public class TodoController {
 
     @GetMapping(value = "api/{id}/todo")
     public Todo get(@PathVariable("id") Long id){
-        return service.get(id);
+        if (service.existInDb(id)){
+            return service.get(id);
+        }
+        throw new RuntimeException("No existe el id en la base de datos");
     }
 
 }
