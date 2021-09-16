@@ -32,29 +32,6 @@ const FormList = () => {
         });
     }
   
-    const onEdit = (event) => {
-      event.preventDefault();
-  
-      const request = {
-        name: state.name,
-        id: item.id,
-      };
-  
-  
-      fetch(HOST_API + "/todoList", {
-        method: "PUT",
-        body: JSON.stringify(request),
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      })
-        .then(response => response.json())
-        .then((list) => {
-          dispatch({ type: "update-item", item: list });
-          setState({ name: "" });
-          formRef.current.reset();
-        });
-    }
   
     return <form ref={formRef}>
       <input
@@ -65,7 +42,6 @@ const FormList = () => {
         onChange={(event) => {
           setState({ ...state, name: event.target.value })
         }}  ></input>
-      {item.id && <button onClick={onEdit}>Actualizar</button>}
       {!item.id && <button onClick={onAdd}>Crear</button>}
     </form>
 }
