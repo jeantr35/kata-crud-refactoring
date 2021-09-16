@@ -1,4 +1,4 @@
-package co.com.sofka.crud;
+package co.com.sofka.crud.toDo;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -33,10 +33,10 @@ public class TodoController {
 
     @DeleteMapping(value = "api/{id}/todo")
     public void delete(@PathVariable("id")Long id){
-        if (service.existInDb(id)){
-            service.delete(id);
+        if (!service.existInDb(id)){
+            throw new RuntimeException("No existe el id para borrar");
         }
-        throw new RuntimeException("No existe el id para borrar");
+        service.delete(id);
 
     }
 
