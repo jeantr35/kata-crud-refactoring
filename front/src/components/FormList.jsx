@@ -8,9 +8,11 @@ const FormList = () => {
     const { dispatch, state: { lists } } = useContext(Store);
     const item = lists.item;
     const [state, setState] = useState(item);
+    const [isDisabled, setIsDisabled] = useState(true)
   
     const onAdd = (event) => {
       event.preventDefault();
+      setIsDisabled(true)
   
       const request = {
         name: state.name,
@@ -42,9 +44,10 @@ const FormList = () => {
         defaultValue={item.name}
         className="AddToDo"
         onChange={(event) => {
+          setIsDisabled(event.target.value.length > 3 ? false : true)
           setState({ ...state, name: event.target.value })
         }}  ></input>
-      {!item.id && <button className='CreateButton' onClick={onAdd}>Crear</button>}
+      {!item.id && <button disabled={isDisabled} className='CreateButton' onClick={onAdd}>Crear</button>}
     </form>
 }
  

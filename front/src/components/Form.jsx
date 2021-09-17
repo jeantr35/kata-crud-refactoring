@@ -7,9 +7,11 @@ const Form = ({groupListId}) => {
   const { dispatch, state: { todo } } = useContext(Store);
   const item = todo.item;
   const [state, setState] = useState(item);
+  const [isDisabled, setIsDisabled] = useState(true)
 
   const onAdd = (event) => {
     event.preventDefault();
+    setIsDisabled(true)
 
     const request = {
       name: state.name,
@@ -68,10 +70,11 @@ const Form = ({groupListId}) => {
       defaultValue={item.groupListId === groupListId ? item.name : ""}
       className="AddList"
       onChange={(event) => {
+        setIsDisabled(event.target.value.length > 3 ? false : true)
         setState({ ...state, name: event.target.value })
-      }}  ></input>
+      }} />
     {item.id && item.groupListId === groupListId && <button onClick={onEdit}>Actualizar</button>}
-    {!item.id && <button className='CreateButton' onClick={onAdd}>Crear</button>}
+    {!item.id && <button disabled={isDisabled} className='CreateButton' onClick={onAdd}>Crear</button>}
   </form>
 }
  
