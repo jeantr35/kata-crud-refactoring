@@ -1,4 +1,4 @@
-import React, {useContext, useState, useRef} from 'react'
+import React, {useContext, useState, useRef, Fragment} from 'react'
 import { HOST_API } from './Reducer.jsx';
 import { Store } from './Store.jsx';
 
@@ -8,10 +8,12 @@ const Form = ({groupListId}) => {
   const item = todo.item;
   const [state, setState] = useState(item);
   const [isDisabled, setIsDisabled] = useState(true)
+  const [hasWritten, sethasWritten] = useState(false)
 
   const onAdd = (event) => {
     event.preventDefault();
     setIsDisabled(true)
+    sethasWritten(false)
 
     const request = {
       name: state.name,
@@ -62,7 +64,8 @@ const Form = ({groupListId}) => {
       });
   }
 
-  return <form ref={formRef}>
+  return <Fragment>
+  <form ref={formRef}>
     <input
       type="text"
       name="name"
@@ -70,12 +73,15 @@ const Form = ({groupListId}) => {
       defaultValue={item.groupListId === groupListId ? item.name : ""}
       className="AddList"
       onChange={(event) => {
+        sethasWritten(true)
         setIsDisabled(event.target.value.length > 3 ? false : true)
         setState({ ...state, name: event.target.value })
       }} />
     {item.id && item.groupListId === groupListId && <button onClick={onEdit}>Actualizar</button>}
     {!item.id && <button disabled={isDisabled} className='CreateButton' onClick={onAdd}>Crear</button>}
   </form>
+  {isDisabled && hasWritten && <span className="MinimunLength">Minimo 4 caracteres</span>}
+  </Fragment>
 }
  
 export default Form;
