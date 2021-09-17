@@ -2,7 +2,7 @@ import React, {useContext, useState, useRef} from 'react'
 import { HOST_API } from './Reducer.jsx';
 import { Store } from './Store.jsx';
 
-const Form = () => {
+const Form = ({groupListId}) => {
   const formRef = useRef(null);
   const { dispatch, state: { todo } } = useContext(Store);
   const item = todo.item;
@@ -14,7 +14,8 @@ const Form = () => {
     const request = {
       name: state.name,
       id: null,
-      completed: false
+      completed: false,
+      groupListId: groupListId
     };
 
 
@@ -39,7 +40,8 @@ const Form = () => {
     const request = {
       name: state.name,
       id: item.id,
-      isCompleted: item.isCompleted
+      isCompleted: item.isCompleted,
+      groupListId: groupListId
     };
 
 

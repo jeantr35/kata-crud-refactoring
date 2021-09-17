@@ -1,4 +1,5 @@
 import React, {useContext, useEffect} from 'react'
+import Form from './Form.jsx';
 import { HOST_API } from './Reducer.jsx';
 import { Store } from './Store.jsx';
 
@@ -29,11 +30,12 @@ const currentList = lists.list;
     dispatch({ type: "edit-item", item: todo })
   };
 
-  const onChange = (event, todo) => {
+  const onChange = (event, todo, listId) => {
     const request = {
       name: todo.name,
       id: todo.id,
-      completed: event.target.checked
+      completed: event.target.checked,
+      groupListId: listId
     };
     fetch(HOST_API + "/todo", {
       method: "PUT",
@@ -69,16 +71,17 @@ const currentList = lists.list;
   const decorationDone = {
     textDecoration: 'line-through'
   };
-  
+
   return <div>
     <table >
       <tbody>
-        {currentList.map((lists) => {
+        {currentList.map((list) => {
           return <div>
           <tr>
-            <td>{lists.name}</td>
-            <td><button onClick={() => onDeleteList(lists.id)}>Eliminar</button></td>
+            <td>{list.name}</td>
+            <td><button onClick={() => onDeleteList(list.id)}>Eliminar</button></td>
           </tr>
+          <tr><td><Form groupListId={list.id}/></td></tr>
       <div>
         <table >
           <thead>
@@ -90,13 +93,16 @@ const currentList = lists.list;
           </thead>
           <tbody>
             {currentTodos.map((todo) => {
-              return <tr key={todo.id} style={todo.completed ? decorationDone : {}}>
+              if (todo.groupListId === list.id) {
+                return<tr key={todo.id} style={todo.completed ? decorationDone : {}}>
                 <td>{todo.id}</td>
                 <td>{todo.name}</td>
                 <td><input type="checkbox" defaultChecked={todo.completed} onChange={(event) => onChange(event, todo)}></input></td>
                 <td><button onClick={() => onDelete(todo.id)}>Eliminar</button></td>
-                <td><button onClick={() => onEdit(todo)}>Editar</button></td>
-              </tr>
+                <td><button onClick={() => onEdit(todo, list.id)}>Editar</button></td>
+              </tr>  
+              }
+              return <tr key={todo.id} style={todo.completed ? decorationDone : {}}></tr>
             })}
           </tbody>
         </table>
