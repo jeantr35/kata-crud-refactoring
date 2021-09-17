@@ -2,6 +2,7 @@ import React, {useContext, useState, useRef} from 'react'
 import { HOST_API } from './Reducer.jsx';
 import { Store } from './Store.jsx';
 
+
 const FormList = () => {
     const formRef = useRef(null);
     const { dispatch, state: { lists } } = useContext(Store);
@@ -39,10 +40,11 @@ const FormList = () => {
         name="name"
         placeholder="Nombre de tu lista"
         defaultValue={item.name}
+        className="AddToDo"
         onChange={(event) => {
           setState({ ...state, name: event.target.value })
         }}  ></input>
-      {!item.id && <button onClick={onAdd}>Crear</button>}
+      {!item.id && <button className='CreateButton' onClick={onAdd}>Crear</button>}
     </form>
 }
  

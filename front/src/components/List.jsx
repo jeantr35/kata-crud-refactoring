@@ -84,24 +84,24 @@ const currentList = lists.list;
       <tbody>
         {currentList.map((list) => {
           return <Fragment key={list.id}>
-          <tr>
+          <tr className="ListTime">
             <td>{list.name}</td>
-            <td><button onClick={() => onDeleteList(list.id)}>Eliminar</button></td>
+            <td><button className="DeleteButton" onClick={() => onDeleteList(list.id)}>Eliminar</button></td>
           </tr>
-          <tr><td><Form groupListId={list.id}/></td></tr>
-            <tr>
-              <td>ID</td>
+          <tr ><td><Form groupListId={list.id}/></td></tr>
+            <tr className="ItemDiv">
+              <td className="ID">ID</td>
               <td>Tarea</td>
               <td>¿Completado?</td>
             </tr>
             {currentTodos.map((todo) => {
               if (todo.groupListId === list.id) {
-                return<tr key={todo.id} style={todo.completed ? decorationDone : {}}>
-                <td>{todo.id}</td>
+                return<tr className="todoList" key={todo.id} style={todo.completed ? decorationDone : {}}>
+                <td className="ID">{todo.id}</td>
                 <td>{todo.name}</td>
                 <td><input type="checkbox" defaultChecked={todo.completed} onChange={(event) => onChange(event, todo, list.id)}></input></td>
-                <td><button onClick={() => onDelete(todo.id)}>Eliminar</button></td>
-                <td><button onClick={() => onEdit(todo)}>Editar</button></td>
+                <td><button className="DeleteButton" onClick={() => onDelete(todo.id)}>Eliminar</button></td>
+                <td><button className="EditButton"onClick={() => onEdit(todo)}>Editar</button></td>
               </tr>  
               }
               return;

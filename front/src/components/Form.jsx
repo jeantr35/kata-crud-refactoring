@@ -66,11 +66,12 @@ const Form = ({groupListId}) => {
       name="name"
       placeholder="¿Qué piensas hacer hoy?"
       defaultValue={item.groupListId === groupListId ? item.name : ""}
+      className="AddList"
       onChange={(event) => {
         setState({ ...state, name: event.target.value })
       }}  ></input>
     {item.id && item.groupListId === groupListId && <button onClick={onEdit}>Actualizar</button>}
-    {!item.id && <button onClick={onAdd}>Crear</button>}
+    {!item.id && <button className='CreateButton' onClick={onAdd}>Crear</button>}
   </form>
 }
  
