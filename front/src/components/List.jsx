@@ -1,4 +1,4 @@
-import React, {useContext, useEffect} from 'react'
+import React, {Fragment, useContext, useEffect} from 'react'
 import Form from './Form.jsx';
 import { HOST_API } from './Reducer.jsx';
 import { Store } from './Store.jsx';
@@ -30,12 +30,12 @@ const currentList = lists.list;
     dispatch({ type: "edit-item", item: todo })
   };
 
-  const onChange = (event, todo, listId) => {
+  const onChange = (event, todo, groupListId) => {
     const request = {
       name: todo.name,
       id: todo.id,
       completed: event.target.checked,
-      groupListId: listId
+      groupListId: groupListId
     };
     fetch(HOST_API + "/todo", {
       method: "PUT",
@@ -61,6 +61,13 @@ const currentList = lists.list;
 
 
   const onDeleteList = (id) => {
+
+    const deleteAllListItem = todo.list.map((item) => {
+      if(item.groupListId === id){
+        onDelete(item.id);
+      }
+    });
+
     fetch(HOST_API + "/" + id + "/todoList", {
       method: "DELETE"
     }).then((list) => {
@@ -72,45 +79,37 @@ const currentList = lists.list;
     textDecoration: 'line-through'
   };
 
-  return <div>
+  return <Fragment>
     <table >
       <tbody>
         {currentList.map((list) => {
-          return <div>
+          return <Fragment key={list.id}>
           <tr>
             <td>{list.name}</td>
             <td><button onClick={() => onDeleteList(list.id)}>Eliminar</button></td>
           </tr>
           <tr><td><Form groupListId={list.id}/></td></tr>
-      <div>
-        <table >
-          <thead>
             <tr>
               <td>ID</td>
               <td>Tarea</td>
               <td>¿Completado?</td>
             </tr>
-          </thead>
-          <tbody>
             {currentTodos.map((todo) => {
               if (todo.groupListId === list.id) {
                 return<tr key={todo.id} style={todo.completed ? decorationDone : {}}>
                 <td>{todo.id}</td>
                 <td>{todo.name}</td>
-                <td><input type="checkbox" defaultChecked={todo.completed} onChange={(event) => onChange(event, todo)}></input></td>
+                <td><input type="checkbox" defaultChecked={todo.completed} onChange={(event) => onChange(event, todo, list.id)}></input></td>
                 <td><button onClick={() => onDelete(todo.id)}>Eliminar</button></td>
-                <td><button onClick={() => onEdit(todo, list.id)}>Editar</button></td>
+                <td><button onClick={() => onEdit(todo)}>Editar</button></td>
               </tr>  
               }
-              return <tr key={todo.id} style={todo.completed ? decorationDone : {}}></tr>
+              return;
             })}
-          </tbody>
-        </table>
-      </div>
-      </div>
+        </Fragment>
         })}
       </tbody>
     </table>
-  </div>
+  </Fragment>
 }
 export default List;
