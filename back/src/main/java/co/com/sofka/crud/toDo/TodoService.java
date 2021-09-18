@@ -28,7 +28,6 @@ public class TodoService {
         if(todo.getName().length() > 3) {
             todo = repository.save(todo);
         }
-
         todoDTO.setId(todo.getId());
         return todoDTO;
     }

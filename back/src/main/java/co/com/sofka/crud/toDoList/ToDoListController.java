@@ -1,5 +1,6 @@
 package co.com.sofka.crud.toDoList;
 
+import co.com.sofka.crud.DTO.TodoListDTO;
 import co.com.sofka.crud.toDo.Todo;
 import co.com.sofka.crud.toDo.TodoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,22 +14,22 @@ public class ToDoListController {
     private ToDoListService service;
 
     @GetMapping(value = "api/todoLists")
-    public Iterable<ToDoList> list(){
+    public Iterable<TodoListDTO> list(){
         return service.listOfList();
     }
 
     @PostMapping(value = "api/todoList")
-    public ToDoList save(@RequestBody ToDoList toDoList){
-        if (!toDoList.getName().isEmpty() && toDoList.getName().length() > 3){
-            return service.saveList(toDoList);
+    public TodoListDTO save(@RequestBody TodoListDTO todoListDTO){
+        if (!todoListDTO.getName().isEmpty() && todoListDTO.getName().length() > 3){
+            return service.saveList(todoListDTO);
         }
         throw new RuntimeException("Por favor ingrese un nombre de al menos 4 caracteres");
     }
 
     @PutMapping(value = "api/todoList")
-    public ToDoList update(@RequestBody ToDoList toDoList){
-        if(toDoList.getId() != null && toDoList.getName().length() > 3){
-            return service.saveList(toDoList);
+    public TodoListDTO update(@RequestBody TodoListDTO todoListDTO){
+        if(todoListDTO.getId() != null && todoListDTO.getName().length() > 3){
+            return service.saveList(todoListDTO);
         }
         throw new RuntimeException("No existe el id para actualizar");
     }
