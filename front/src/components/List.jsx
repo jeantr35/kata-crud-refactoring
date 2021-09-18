@@ -2,6 +2,7 @@ import React, {Fragment, useContext, useEffect} from 'react'
 import Form from './Form.jsx';
 import { HOST_API } from './Reducer.jsx';
 import { Store } from './Store.jsx';
+import "./Styles.css";
 
 const List = () => {
 const { dispatch, state: { todo, lists } } = useContext(Store);
@@ -80,24 +81,23 @@ const currentList = lists.list;
   };
 
   return <Fragment>
-    <table >
+    <table cellspacing="0">
       <tbody>
         {currentList.map((list) => {
-          return <Fragment key={list.id}>
-          <tr className="ListTime">
-            <td>{list.name}</td>
-            <td><button className="DeleteButton" onClick={() => onDeleteList(list.id)}>Eliminar</button></td>
+          return <Fragment  key={list.id}>
+            <div className="listDiv">
+          <tr>
+            <td id="TitleText">{list.name}</td>
+            <td ><button className="deleteListButton" onClick={() => onDeleteList(list.id)}>Eliminar</button></td>
           </tr>
           <tr ><td><Form groupListId={list.id}/></td></tr>
-            <tr className="ItemDiv">
-              <td className="ID">ID</td>
+            <tr>
               <td>Tarea</td>
               <td>¿Completado?</td>
             </tr>
             {currentTodos.map((todo) => {
               if (todo.groupListId === list.id) {
-                return<tr className="todoList" key={todo.id} style={todo.completed ? decorationDone : {}}>
-                <td className="ID">{todo.id}</td>
+                return<tr key={todo.id} style={todo.completed ? decorationDone : {}}>
                 <td>{todo.name}</td>
                 <td><input type="checkbox" defaultChecked={todo.completed} onChange={(event) => onChange(event, todo, list.id)}></input></td>
                 <td><button className="DeleteButton" onClick={() => onDelete(todo.id)}>Eliminar</button></td>
@@ -106,6 +106,7 @@ const currentList = lists.list;
               }
               return;
             })}
+            </div>
         </Fragment>
         })}
       </tbody>

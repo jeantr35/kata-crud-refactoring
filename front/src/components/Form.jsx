@@ -1,6 +1,7 @@
 import React, {useContext, useState, useRef, Fragment} from 'react'
 import { HOST_API } from './Reducer.jsx';
 import { Store } from './Store.jsx';
+import "./Styles.css";
 
 const Form = ({groupListId}) => {
   const formRef = useRef(null);
@@ -71,13 +72,12 @@ const Form = ({groupListId}) => {
       name="name"
       placeholder="¿Qué piensas hacer hoy?"
       defaultValue={item.groupListId === groupListId ? item.name : ""}
-      className="AddList"
       onChange={(event) => {
         sethasWritten(true)
         setIsDisabled(event.target.value.length > 3 ? false : true)
         setState({ ...state, name: event.target.value })
       }} />
-    {item.id && item.groupListId === groupListId && <button onClick={onEdit}>Actualizar</button>}
+    {item.id && item.groupListId === groupListId && <button className="updateButton" onClick={onEdit}>Actualizar</button>}
     {!item.id && <button disabled={isDisabled} className='CreateButton' onClick={onAdd}>Crear</button>}
   </form>
   {isDisabled && hasWritten && <span className="MinimunLength">Minimo 4 caracteres</span>}

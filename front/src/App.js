@@ -9,8 +9,12 @@ import "./components/Styles.css"
 function App() {
   return <StoreProvider>
     <h3 className="Title">To-Do List</h3>
+    <div className="GlobalDiv">
     <FormList />
+    </div>
+    <div className="GlobalDiv">
     <List />
+    </div>
   </StoreProvider>
 }
 

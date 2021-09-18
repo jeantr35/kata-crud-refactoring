@@ -1,7 +1,7 @@
 import React, {useContext, useState, useRef, Fragment} from 'react'
 import { HOST_API } from './Reducer.jsx';
 import { Store } from './Store.jsx';
-
+import "./Styles.css";
 
 const FormList = () => {
     const formRef = useRef(null);
@@ -39,20 +39,23 @@ const FormList = () => {
   
     return <Fragment>
     <form ref={formRef}>
+    <h3 id="Listas">Listas</h3>
       <input
         type="text"
         name="name"
         placeholder="Nombre de tu lista"
         defaultValue={item.name}
-        className="AddToDo"
+        id="listForms"
         onChange={(event) => {
           sethasWritten(true)
           setIsDisabled(event.target.value.length > 3 ? false : true)
           setState({ ...state, name: event.target.value })
         }}  ></input>
       {!item.id && <button disabled={isDisabled} className='CreateButton' onClick={onAdd}>Crear</button>}
+    
+      {isDisabled && hasWritten && <p className="MinimunLength">Minimo 4 caracteres</p>}
     </form>
-     {isDisabled && hasWritten && <span className="MinimunLength">Minimo 4 caracteres</span>}
+     
     </Fragment>
 }
  
