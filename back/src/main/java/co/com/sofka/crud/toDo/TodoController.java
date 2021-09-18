@@ -1,5 +1,6 @@
 package co.com.sofka.crud.toDo;
 
+import co.com.sofka.crud.DTO.TodoDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,24 +14,21 @@ public class TodoController {
     private TodoService service;
 
     @GetMapping(value = "api/todos")
-    public Iterable<Todo> list(){
+    public Iterable<TodoDTO> list(){
         return service.list();
     }
     
     @PostMapping(value = "api/todo")
-    public Todo save(@RequestBody Todo todo){
-        if (!todo.getName().isEmpty() && todo.getName().length() > 3){
-            return service.save(todo);
-        }
-        throw new RuntimeException("Por favor ingrese un nombre de al menos 4 caracteres");
+    public TodoDTO save(@RequestBody TodoDTO todoDTO){
+            return service.save(todoDTO);
     }
 
     @PutMapping(value = "api/todo")
-    public Todo update(@RequestBody Todo todo){
-        if(todo.getId() != null && todo.getName().length() > 3){
-            return service.save(todo);
+    public TodoDTO update(@RequestBody TodoDTO todoDTO){
+        if(service.existInDb(todoDTO.getId())) {
+            return service.save(todoDTO);
         }
-        throw new RuntimeException("No existe el id para actualizar");
+        throw new RuntimeException("No existe el id en la base de datos");
     }
 
     @DeleteMapping(value = "api/{id}/todo")
